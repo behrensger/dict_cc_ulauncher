@@ -11,5 +11,7 @@ https://github.com/behrensger/dict_cc_ulauncher
 ## Credits
 
 This extension is based on Mike Barkmin's DuckDuckGo search. The honor is his.
-His extension can be found there: https://github.com/mikebarkmin/ulauncher-duckduckgo
-
+His extension can be found there:
+```
+https://github.com/mikebarkmin/ulauncher-duckduckgo
+```
