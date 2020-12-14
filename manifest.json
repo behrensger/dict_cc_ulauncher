@@ -1,25 +1,18 @@
 {
   "required_api_version": "^2.0.0",
-  "name": "dict.cc Lookup Extension",
-  "description": "",
-  "developer_name": "Andrey Behrens",
+  "name": "dict.cc (DE<->EN)",
+  "description": "Enter a term after the keyword 'dict' and press Enter. Ulauncher then calls up a standard browser and searches for the term on dict.cc.",
+  "developer_name": "A. Behrens",
   "icon": "images/icon.png",
   "options": {
-    "query_debounce": 1
+    "query_debounce": 0.1
   },
   "preferences": [
     {
-      "id": "id",
+      "id": "dict_cc_search",
       "type": "keyword",
-      "name": "command",
+      "name": "dict_cc",
       "default_value": "dict"
-    },
-    {
-      "id": "word",
-      "type": "text",
-      "name": "translation",
-      "description": "Text which shall be translated",
-      "default_value": "word"
     }
   ]
 }

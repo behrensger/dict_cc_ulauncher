@@ -3,47 +3,33 @@ import logging
 from time import sleep
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.client.EventListener import EventListener
-from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
-from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
+from ulauncher.api.shared.event import KeywordQueryEvent
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
-from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
-from ulauncher.api.shared.action.HideWindowAction import HideWindowAction
 
-logger = logging.getLogger(__name__)
+from src.functions import generate_suggestions
+from src.items import no_input_item, show_suggestion_items
 
 
-class DemoExtension(Extension):
+class DictCcExtension(Extension):
 
     def __init__(self):
-        super(DemoExtension, self).__init__()
+        super(DictCcExtension, self).__init__()
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
-        self.subscribe(ItemEnterEvent, ItemEnterEventListener())
 
 
 class KeywordQueryEventListener(EventListener):
-
     def on_event(self, event, extension):
-        items = []
-        logger.info('preferences %s' % json.dumps(extension.preferences))
-        for i in range(5):
-            item_name = extension.preferences['item_name']
-            data = {'new_name': '%s %s was clicked' % (item_name, i)}
-            items.append(ExtensionResultItem(icon='images/icon.png',
-                                             name='%s %s' % (item_name, i),
-                                             description='Item description %s' % i,
-                                             on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+        query = event.get_argument() or str()
+        lang = "de-DE"
 
-        return RenderResultListAction(items)
+        if len(query.strip()) == 0:
+            return RenderResultListAction(no_input_item())
 
-
-class ItemEnterEventListener(EventListener):
-
-    def on_event(self, event, extension):
-        data = event.get_data()
-        return RenderResultListAction([ExtensionResultItem(icon='images/icon.png',
-                                                           name=data['new_name'],
-                                                           on_enter=HideWindowAction())])
+        return RenderResultListAction(
+            show_suggestion_items(
+                [query] + generate_suggestions(query, lang=lang))
+        )
 
 
 if __name__ == '__main__':
-    DemoExtension().run()
+    DictCcExtension().run()
