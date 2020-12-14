@@ -13,8 +13,8 @@ https://github.com/behrensger/dict_cc_ulauncher
 
 ## Credits
 
-This extension is based on Mike Barkmin's DuckDuckGo search. The honor is his.
-His extension can be found there:
+This extension is based on Mike Barkmin's DuckDuckGo search. The honor belongs to him.
+Mike's extension can be found there:
 ```
 https://github.com/mikebarkmin/ulauncher-duckduckgo
 ```
