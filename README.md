@@ -1,6 +1,9 @@
 # dict_cc_ulauncher
 An Extension for ULauncher to Call dict.cc
 
+![Screenshot](screenshot.png)
+
+
 ## Install
 Then open Ulauncher preferences window > extensions > add extension and paste the following url:
 
