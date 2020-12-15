@@ -3,7 +3,8 @@ from urllib.request import urlopen, Request
 from urllib.parse import urlencode
 
 SEARCH_URL = "https://www.dict.cc/?"
-SUGGESTION_URL = "https://duckduckgo.com/ac/?"
+
+SEARCH_OPENTHESAURUS_URL = "https://www.openthesaurus.de/synonyme/search?format=application/json&"
 
 url = "https://docs.python.org/3.4/howto/urllib2.html"
 
@@ -16,20 +17,21 @@ def generate_url(search):
     return SEARCH_URL + urlencode({"s": search})
 
 
-def generate_suggestions(search, lang="de-DE"):
-    """
-    >>> generate_suggestions("hello")
-    ['hello', 'hello fresh', 'hello neighbor', 'hello kitty', 'hellosign', 'hello magazine', 'hellofax', 'hello world']
+def generate_synTerms(word):
+    # make a request
+    url = SEARCH_OPENTHESAURUS_URL + urlencode({"q": word})
+    req = Request(url)
 
-    >>> generate_suggestions("hallo", "de-DE")
-    ['hallo', 'halloween', 'hallo zusammen', 'hallo meinung', 'hallo hessen', 'halloleinwand', 'halloween 2020', 'halloween rezepte']
-
-    """
-    url = SUGGESTION_URL + urlencode({"q": search})
-    headers = {'Accept-Language': lang + ",en-US;q=0.7"}
-    req = Request(url, headers=headers)
-    suggestions = []
+    # parse the response
+    response = []
     with urlopen(req) as url:
-        suggestions = json.loads(url.read().decode()) or []
+        response = json.loads(url.read().decode()) or []
 
-    return [s["phrase"] for s in suggestions if s.get("phrase")]
+    terms = []
+    for synsets in response.get('synsets', []):
+        for term in synsets.get('terms', []):
+            terms.append(term.get('term'))
+
+    # prepare and return the found terms
+    terms = list(set(terms))[0:6]  # first 6 elements of a unique list
+    return terms
