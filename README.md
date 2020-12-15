@@ -1,5 +1,5 @@
-# dict_cc_ulauncher
-An Extension for ULauncher to Call dict.cc
+# Ulauncher Extension for Dict.cc
+
 
 ![Screenshot](images/screenshot.png)
 
