@@ -18,9 +18,11 @@ class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
         query = event.get_argument() or str()
 
+        # if there is no search term
         if len(query.strip()) == 0:
             return RenderResultListAction(no_input_item())
 
+        # else
         return RenderResultListAction(
             show_suggestion_items(
                 [query] + generate_synTerms(query)
